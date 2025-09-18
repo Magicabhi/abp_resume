@@ -165,6 +165,46 @@ section .title::after{
 
 
 /* Home section with video background */
+/* Flex layout for home section */
+.home-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 80px;
+}
+
+/* Home content (left side text) */
+.home .home-content {
+  max-width: 50%;
+  z-index: 1;
+}
+
+/* Profile image (right side) */
+.home .home-image {
+  max-width: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  animation: zoomInOut 5s infinite ease-in-out;
+}
+
+.home .home-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  display: block;
+  object-fit: cover;
+  border: 5px solid #fff; /* white border for better visibility */
+}
+
+/* Zoom animation */
+@keyframes zoomInOut {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+
 .home {
   position: relative;
   display: flex;
@@ -712,4 +752,5 @@ footer span a:hover{
         line-height: 38px;
     }
 }
+
 
