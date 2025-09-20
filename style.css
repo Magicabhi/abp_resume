@@ -293,6 +293,7 @@ section .title::after{
 }
 .about .about-content .left{
     width: 45%;
+    text-align:center;
 }
 .about .about-content .left img{
     height: 400px;
@@ -752,6 +753,7 @@ footer span a:hover{
         line-height: 38px;
     }
 }
+
 
 
 
