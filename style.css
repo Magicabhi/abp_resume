@@ -270,8 +270,8 @@ section .title::after{
 
 .home .home-content a {
   display: inline-block;
-  background: crimson;
-  color: #fff;
+  background: none;
+  color: crimson;
   font-size: 25px;
   padding: 12px 36px;
   margin-top: 20px;
@@ -282,8 +282,8 @@ section .title::after{
 }
 
 .home .home-content a:hover {
-  color: crimson;
-  background: none;
+  color: #fff;
+  background: crimson;
 }
 
 
@@ -752,6 +752,7 @@ footer span a:hover{
         line-height: 38px;
     }
 }
+
 
 
 
