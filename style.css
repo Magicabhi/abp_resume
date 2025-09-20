@@ -191,7 +191,7 @@ section .title::after{
 .home .home-image img {
   width: 250px;
     height: 300px;
-    border-radius: 20%;
+    border-radius: 50%;
   display: block;
   object-fit: cover;
   border: 5px solid #fff; /* white border for better visibility */
@@ -752,6 +752,7 @@ footer span a:hover{
         line-height: 38px;
     }
 }
+
 
 
 
