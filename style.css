@@ -294,15 +294,26 @@ section .title::after{
     align-items: center;      /* Center everything */
     text-align: center;
     padding: 20px;
+    height:auto;
   }
 
   .home-image {
     order: -1;               /* Moves image to top */
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
 
   .home-content {
     order: 0;                /* Keeps text below */
+    text-align: left;
+  }
+
+  .home .home-image img {
+    width: 200px;
+    height: 200px;
+  }
+
+   .home .max-width {
+    padding: 0 20px;
   }
 }
 
@@ -772,6 +783,7 @@ footer span a:hover{
         line-height: 38px;
     }
 }
+
 
 
 
