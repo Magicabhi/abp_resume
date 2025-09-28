@@ -123,3 +123,33 @@ $(document).ready(function(){
     }
   });
 });
+
+<script>
+// ===== Select all service boxes and popups =====
+const serviceBoxes = document.querySelectorAll(".service-box"); // add this class to each box
+const popups = document.querySelectorAll(".popup");
+const closeBtns = document.querySelectorAll(".popup .close");
+
+// ===== Open popup on box click =====
+serviceBoxes.forEach((box, index) => {
+  box.addEventListener("click", () => {
+    document.getElementById("popup" + (index + 1)).style.display = "flex";
+  });
+});
+
+// ===== Close popup when clicking X =====
+closeBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.closest(".popup").style.display = "none";
+  });
+});
+
+// ===== Close popup when clicking outside content =====
+window.addEventListener("click", (e) => {
+  popups.forEach(popup => {
+    if (e.target === popup) {
+      popup.style.display = "none";
+    }
+  });
+});
+</script>
