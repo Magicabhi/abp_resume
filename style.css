@@ -784,9 +784,9 @@ footer span a:hover{
     }
 }
 
-/* ===== Popup Base ===== */
+/* Hide by default */
 .popup {
-  display: none;  /* hidden until JS shows it */
+  display: none; /* hidden until JS shows it */
   position: fixed;
   z-index: 1000;
   top: 0;
@@ -799,67 +799,46 @@ footer span a:hover{
   align-items: center;
 }
 
-
-/* ===== Popup Content ===== */
+/* Popup inner box */
 .popup-content {
   background: #fff;
-  padding: 20px 30px;
-  border-radius: 12px;
+  padding: 25px;
   max-width: 500px;
   width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  animation: popupFadeIn 0.3s ease;
   text-align: center;
-  position: relative;
-
-  /* Animation on open */
-  transform: scale(0.8);
-  opacity: 0;
-  animation: popupZoom 0.3s ease forwards;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
-/* ===== Animation ===== */
-@keyframes popupZoom {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* ===== Close Button ===== */
+/* Close button */
 .popup .close {
   position: absolute;
-  top: 12px;
-  right: 18px;
+  top: 15px;
+  right: 20px;
   font-size: 26px;
-  font-weight: bold;
-  color: #333;
   cursor: pointer;
-  transition: color 0.2s;
+  color: #333;
 }
 
-.popup .close:hover {
-  color: #e60023; /* red hover */
-}
-
-/* ===== Optional: Smooth exit effect ===== */
-.popup.fadeOut .popup-content {
-  animation: popupFadeOut 0.25s ease forwards;
-}
-
-@keyframes popupFadeOut {
+/* Animation */
+@keyframes popupFadeIn {
   from {
-    transform: scale(1);
-    opacity: 1;
+    opacity: 0;
+    transform: scale(0.9);
   }
   to {
-    transform: scale(0.8);
-    opacity: 0;
+    opacity: 1;
+    transform: scale(1);
   }
 }
+
+/* Prevent body scroll when popup open */
+body.popup-open {
+  overflow: hidden;
+}
+
+
 
 
 
