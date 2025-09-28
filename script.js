@@ -104,3 +104,22 @@ $(document).ready(function(){
     }
   });
 });
+
+// Popup logic
+$(document).ready(function(){
+  $(".card").click(function(){
+    var popupId = $(this).data("popup");
+    $("#" + popupId).fadeIn();
+  });
+
+  $(".popup .close").click(function(){
+    $(this).closest(".popup").fadeOut();
+  });
+
+  // Close when clicking outside popup-content
+  $(".popup").click(function(e){
+    if($(e.target).hasClass("popup")){
+      $(this).fadeOut();
+    }
+  });
+});
