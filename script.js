@@ -105,51 +105,22 @@ $(document).ready(function(){
   });
 });
 
-// Popup logic
-$(document).ready(function(){
-  $(".card").click(function(){
-    var popupId = $(this).data("popup");
-    $("#" + popupId).fadeIn();
-  });
+$(".card").click(function(){
+  var popupId = $(this).data("popup");
+  $("body").addClass("popup-open");
+  $("#" + popupId).css("display","flex").hide().fadeIn();
+});
 
-  $(".popup .close").click(function(){
-    $(this).closest(".popup").fadeOut();
-  });
-
-  // Close when clicking outside popup-content
-  $(".popup").click(function(e){
-    if($(e.target).hasClass("popup")){
-      $(this).fadeOut();
-    }
+$(".popup .close").click(function(){
+  $(this).closest(".popup").fadeOut(function(){
+    $("body").removeClass("popup-open");
   });
 });
 
-<script>
-// ===== Select all service boxes and popups =====
-const serviceBoxes = document.querySelectorAll(".service-box"); // add this class to each box
-const popups = document.querySelectorAll(".popup");
-const closeBtns = document.querySelectorAll(".popup .close");
-
-// ===== Open popup on box click =====
-serviceBoxes.forEach((box, index) => {
-  box.addEventListener("click", () => {
-    document.getElementById("popup" + (index + 1)).style.display = "flex";
-  });
+$(".popup").click(function(e){
+  if($(e.target).hasClass("popup")){
+    $(this).fadeOut(function(){
+      $("body").removeClass("popup-open");
+    });
+  }
 });
-
-// ===== Close popup when clicking X =====
-closeBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    btn.closest(".popup").style.display = "none";
-  });
-});
-
-// ===== Close popup when clicking outside content =====
-window.addEventListener("click", (e) => {
-  popups.forEach(popup => {
-    if (e.target === popup) {
-      popup.style.display = "none";
-    }
-  });
-});
-</script>
