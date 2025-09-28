@@ -786,7 +786,7 @@ footer span a:hover{
 
 /* ===== Popup Base ===== */
 .popup {
-  display: none;                 /* hidden by default */
+  display: none!important;                 /* hidden by default */
   position: fixed;
   z-index: 1000;
   top: 0;
@@ -861,6 +861,7 @@ footer span a:hover{
     opacity: 0;
   }
 }
+
 
 
 
