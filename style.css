@@ -786,7 +786,7 @@ footer span a:hover{
 
 /* ===== Popup Base ===== */
 .popup {
-  display: none!important;                 /* hidden by default */
+  display: none;  /* hidden until JS shows it */
   position: fixed;
   z-index: 1000;
   top: 0;
@@ -795,11 +795,10 @@ footer span a:hover{
   height: 100%;
   background: rgba(0,0,0,0.7);
 
-  display: flex;
-  justify-content: center;       /* center horizontally */
-  align-items: center;           /* center vertically */
-  overflow: auto;                /* allow scroll if content is tall */
+  justify-content: center;
+  align-items: center;
 }
+
 
 /* ===== Popup Content ===== */
 .popup-content {
@@ -861,6 +860,7 @@ footer span a:hover{
     opacity: 0;
   }
 }
+
 
 
 
