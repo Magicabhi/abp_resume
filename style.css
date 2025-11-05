@@ -570,7 +570,7 @@ section .title::after{
     align-items: center;
 }
 .contact .contact-content .row .info{
-    margin-left: 30px;
+    margin-left: 20px;
 }
 .contact .contact-content .row i{
     font-size: 25px;
@@ -917,6 +917,7 @@ body.popup-open {
   display: block;
   margin-top: 4px;
 }
+
 
 
 
