@@ -37,7 +37,7 @@ section{
     padding: 0 80px;
     margin: auto;
 }
-.about, .services, .skills, .teams, .contact, footer, .career, .experience, .education, .projects{
+.about, .services, .skills, .teams, .contact, footer, .career, .experience, .education, .projects, .certifications{
     font-family: 'Poppins', sans-serif;
 }
 .about .about-content,
@@ -956,7 +956,7 @@ body.popup-open {
   display: inline-block;
   margin-top: 15px;
   padding: 8px 16px;
-  background: #000;
+  background: #dc143c;
   color: #fff;
   border-radius: 6px;
   text-decoration: none;
@@ -967,20 +967,3 @@ body.popup-open {
 .cert-card .btn:hover {
   background: #444;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
