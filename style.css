@@ -873,7 +873,7 @@ body.popup-open {
 /* Timeline Base */
 .timeline {
   position: relative;
-  padding-left: 30px;
+  padding-left: 0px;
 }
 
 .timeline::before {
@@ -933,6 +933,7 @@ body.popup-open {
   display: block;
   margin-top: 4px;
 }
+
 
 
 
