@@ -105,33 +105,24 @@ $(document).ready(function(){
   });
 });
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-$(function(){
-  // open popup
-  $(document).on('click', '.card', function(){
-    var popupId = $(this).data('popup');
-    if (!popupId) return;
+$(".card").click(function(){
+  var popupId = $(this).data("popup");
+  $("body").addClass("popup-open");
+  $("#" + popupId).css("display","flex").hide().fadeIn();
+});
 
-    var $popup = $('#' + popupId);
-    $('body').addClass('popup-open');
-    $popup.css('display','flex').hide().fadeIn(200);
+$(".popup .close").click(function(){
+  $(this).closest(".popup").fadeOut(function(){
+    $("body").removeClass("popup-open");
   });
+});
 
-  // close button
-  $(document).on('click', '.popup .close', function(){
-    $(this).closest('.popup').fadeOut(200, function(){
-      $('body').removeClass('popup-open');
+$(".popup").click(function(e){
+  if($(e.target).hasClass("popup")){
+    $(this).fadeOut(function(){
+      $("body").removeClass("popup-open");
     });
-  });
-
-  // click outside content to close
-  $(document).on('click', '.popup', function(e){
-    if ($(e.target).hasClass('popup')) {
-      $(this).fadeOut(200, function(){
-        $('body').removeClass('popup-open');
-      });
-    }
-  });
+  }
 });
 
 
