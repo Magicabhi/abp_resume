@@ -918,6 +918,56 @@ body.popup-open {
   margin-top: 4px;
 }
 
+/* Grid Layout */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+.cert-card {
+  background: #f8f8f8;
+  padding: 25px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.cert-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cert-card h3 {
+  color: #222;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.cert-card p {
+  color: #555;
+  margin: 5px 0;
+  font-size: 0.95rem;
+}
+
+.cert-card .btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 16px;
+  background: #000;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.cert-card .btn:hover {
+  background: #444;
+}
+
 
 
 
