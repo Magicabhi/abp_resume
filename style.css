@@ -854,22 +854,6 @@ body.popup-open {
   padding: 80px 0;
 }
 
-.education .max-width {
-  max-width: 900px;
-  margin: auto;
-  position: relative;
-}
-
-.education .title {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin-bottom: 60px;
-  border-bottom: 3px solid #000;
-  display: inline-block;
-  padding-bottom: 5px;
-}
-
 /* Timeline Base */
 .timeline {
   position: relative;
@@ -933,6 +917,7 @@ body.popup-open {
   display: block;
   margin-top: 4px;
 }
+
 
 
 
