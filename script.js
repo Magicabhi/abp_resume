@@ -28,14 +28,14 @@ $(document).ready(function(){
 
     // typing text animation
     var typed = new Typed(".typing", {
-        strings: ["WordPress Developer", "Full-Stack Engineer", "React Developer", "AWS Enthusiast", "Freelancer"],
+        strings: ["WordPress Developer", "Full-Stack WordPress Developer", "Freelance WordPress Developer", "WordPress Designer & Developer", "Freelancer"],
         typeSpeed: 100,
         backSpeed: 60,
         loop: true
     });
 
     var typed = new Typed(".typing-2", {
-        strings: ["WordPress Developer", "Full-Stack Engineer", "React Developer", "AWS Enthusiast", "Freelancer"],
+        strings: ["WordPress Developer", "Full-Stack Engineer", "React Developer", "AWS Enthusiast", "Full-Stack Web Creator"],
         typeSpeed: 100,
         backSpeed: 60,
         loop: true
@@ -124,3 +124,4 @@ $(".popup").click(function(e){
     });
   }
 });
+
