@@ -37,7 +37,7 @@ section{
     padding: 0 80px;
     margin: auto;
 }
-.about, .services, .skills, .teams, .contact, footer{
+.about, .services, .skills, .teams, .contact, footer, career{
     font-family: 'Poppins', sans-serif;
 }
 .about .about-content,
@@ -838,6 +838,7 @@ body.popup-open {
 }
 
 .career {background:#aaaaaa36;}
+
 
 
 
