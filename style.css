@@ -840,6 +840,11 @@ body.popup-open {
 .career {background:#aaaaaa36;}
 .career p{text-align:justify;}
 
+.experience p{padding: 10px;
+    background: #dc143c;
+    color: #fff;
+    border-radius: 5px;
+    margin-bottom: 20px;}
 
 
 
