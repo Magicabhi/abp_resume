@@ -273,12 +273,13 @@ section .title::after{
   background: none;
   color: crimson;
   font-size: 25px;
-  padding: 12px 36px;
+  padding: 10px 25px;
   margin-top: 20px;
   font-weight: 400;
   border-radius: 6px;
   border: 2px solid crimson;
   transition: all 0.3s ease;
+  margin-right: 10px;
 }
 
 .home .home-content a:hover {
@@ -978,5 +979,6 @@ body.popup-open {
 .cert-card .btn:hover {
   background: #444;
 }
+
 
 
