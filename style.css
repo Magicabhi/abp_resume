@@ -479,7 +479,7 @@ section .title::after{
     width: 85%;
 }
 .skills-content .right .css::before{
-    width: 60%;
+    width: 90%;
 }
 .skills-content .right .js::before{
     width: 85%;
@@ -978,4 +978,5 @@ body.popup-open {
 .cert-card .btn:hover {
   background: #444;
 }
+
 
