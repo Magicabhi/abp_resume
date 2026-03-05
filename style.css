@@ -527,10 +527,10 @@ section .title::after{
    color:#222;
 }
 .teams .carousel .card img{
-    height: 150px;
+    height: 100px;
        /* width: 150px; */
-    object-fit: cover;
-    border-radius: 10px;
+    object-fit: contain;
+    border-radius: 0px;
     border: 2px solid crimson;
     transition: all 0.3s ease;
 }
@@ -980,6 +980,7 @@ body.popup-open {
 .cert-card .btn:hover {
   background: #444;
 }
+
 
 
 
