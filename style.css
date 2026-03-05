@@ -404,7 +404,7 @@ section .title::after{
     color: #fff;
 }
 .services .serv-content .card .text{
-    font-size: 25px;
+    font-size: 23px;
     font-weight: 500;
     margin: 10px 0 7px 0;
 }
@@ -980,6 +980,7 @@ body.popup-open {
 .cert-card .btn:hover {
   background: #444;
 }
+
 
 
 
