@@ -500,7 +500,7 @@ section .title::after{
     content: "who with me";
 }
 .teams .carousel .card{
-    background: #222;
+    background: #fcfcfc;
     border-radius: 6px;
     padding: 25px 35px;
     text-align: center;
@@ -521,16 +521,17 @@ section .title::after{
     transform: scale(1.05);
 }
 .teams .carousel .card .text{
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 500;
     margin: 10px 0 7px 0;
+   color:#222;
 }
 .teams .carousel .card img{
     height: 150px;
-    width: 150px;
+       /* width: 150px; */
     object-fit: cover;
-    border-radius: 50%;
-    border: 5px solid crimson;
+    border-radius: 10px;
+    border: 2px solid crimson;
     transition: all 0.3s ease;
 }
 .teams .carousel .card:hover img{
@@ -979,6 +980,7 @@ body.popup-open {
 .cert-card .btn:hover {
   background: #444;
 }
+
 
 
 
