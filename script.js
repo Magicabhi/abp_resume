@@ -125,6 +125,62 @@ $(".popup").click(function(e){
   }
 });
 
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
+<script>
+emailjs.init("ct8es1C8Fk5H5133V");
+
+let step = 0;
+let data = {};
+
+function addMessage(text, sender) {
+  let div = document.createElement("div");
+  div.className = "msg " + sender;
+  div.innerText = text;
+  document.getElementById("chat-box").appendChild(div);
+  document.getElementById("chat-box").scrollTop = 9999;
+}
+
+function botAsk() {
+  if (step === 0) addMessage("Hi 👋 What's your name?", "bot");
+  if (step === 1) addMessage("Enter your email 📧", "bot");
+  if (step === 2) addMessage("Tell me your requirement 💼", "bot");
+}
+
+function send() {
+  let input = document.getElementById("input").value;
+  if (!input) return;
+
+  addMessage(input, "user");
+
+  if (step === 0) {
+    data.name = input;
+    step++;
+  } else if (step === 1) {
+    data.email = input;
+    step++;
+  } else if (step === 2) {
+    data.message = input;
+
+    emailjs.send("service_l7k00h9", "template_mdcn175", data)
+      .then(() => {
+        addMessage("✅ Details sent! We will contact you soon.", "bot");
+      })
+      .catch(() => {
+        addMessage("❌ Error sending message.", "bot");
+      });
+
+    step = 0;
+    setTimeout(botAsk, 1000);
+    document.getElementById("input").value = "";
+    return;
+  }
+
+  document.getElementById("input").value = "";
+  setTimeout(botAsk, 500);
+}
+
+botAsk();
+</script>
 
 
