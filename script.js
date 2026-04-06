@@ -141,26 +141,31 @@ function addMessage(text, sender, options = []) {
   div.innerText = text;
   chatBox.appendChild(div);
 
-  // OPTIONS BUTTONS
   if (options.length > 0) {
-  let btnContainer = document.createElement("div");
-  btnContainer.className = "options";
+    let btnContainer = document.createElement("div");
+    btnContainer.className = "options";
 
-  options.forEach(option => {
-    let btn = document.createElement("button");
-    btn.className = "chat-option-btn"; // 👈 COMMON CLASS
-    btn.innerText = option;
+    options.forEach(option => {
+      let btn = document.createElement("button");
+      btn.className = "chat-option-btn";
+      btn.innerText = option;
 
-    btn.onclick = function () {
-      addMessage(option, "user");
-      handleOption(option);
-    };
+      btn.onclick = function () {
+        addMessage(option, "user");
+        handleOption(option);
 
-    btnContainer.appendChild(btn);
-  });
+        // 👇 remove buttons after click
+        btnContainer.remove();
+      };
 
-  chatBox.appendChild(btnContainer);
-}
+      btnContainer.appendChild(btn);
+    });
+
+    chatBox.appendChild(btnContainer);
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+} // 👈🔥 THIS WAS MISSING
 
 // HANDLE BUTTON CLICK
 function handleOption(option) {
@@ -205,7 +210,7 @@ function send() {
 
   if (step === 1) {
     data.name = input;
-    step = 0;
+    step = 3;
   } 
   else if (step === 3) {
     data.message = input;
