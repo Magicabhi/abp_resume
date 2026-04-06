@@ -1091,3 +1091,8 @@ div#chat-toggle:hover {
     border-radius: 6px;
     cursor: pointer;
 }
+
+button.chat-option-btn:hover {
+    background: #dc143c;
+    color: #fff;
+}
