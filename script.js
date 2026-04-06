@@ -128,10 +128,22 @@ $(".popup").click(function(e){
 // EMAILJS INIT
 emailjs.init("ct8es1C8Fk5H5133V");
 
-// CHATBOT LOGIC
+// CHATBOT
 let step = 0;
 let data = {};
 
+// PHONE VALIDATION
+function validatePhone(phone) {
+  phone = phone.replace(/\s+/g, "");
+
+  if (/^[6-9]\d{9}$/.test(phone)) return true;
+  if (/^\+91[6-9]\d{9}$/.test(phone)) return true;
+  if (/^\+?[1-9]\d{7,14}$/.test(phone)) return true;
+
+  return false;
+}
+
+// ADD MESSAGE
 function addMessage(text, sender, options = []) {
   let chatBox = document.getElementById("chat-box");
   if (!chatBox) return;
@@ -153,8 +165,6 @@ function addMessage(text, sender, options = []) {
       btn.onclick = function () {
         addMessage(option, "user");
         handleOption(option);
-
-        // 👇 remove buttons after click
         btnContainer.remove();
       };
 
@@ -165,16 +175,16 @@ function addMessage(text, sender, options = []) {
   }
 
   chatBox.scrollTop = chatBox.scrollHeight;
-} // 👈🔥 THIS WAS MISSING
+}
 
-// HANDLE BUTTON CLICK
+// HANDLE OPTION
 function handleOption(option) {
   data.purpose = option;
   step = 1;
   setTimeout(botAsk, 500);
 }
 
-// BOT QUESTIONS
+// QUESTIONS
 function botAsk() {
   if (step === 0) {
     addMessage(
@@ -193,12 +203,12 @@ function botAsk() {
 
   if (step === 3) addMessage("What kind of website or work are you looking for?", "bot");
 
-  if (step === 4) addMessage("Can you share your contact number?", "bot");
+  if (step === 4) addMessage("📞 Please enter your contact number (e.g. +91XXXXXXXXXX)", "bot");
 
   if (step === 5) addMessage("Please share your email so we can connect with you.", "bot");
 }
 
-// SEND FUNCTION
+// SEND
 function send() {
   let inputField = document.getElementById("input");
   if (!inputField) return;
@@ -217,8 +227,8 @@ function send() {
     step++;
   }
   else if (step === 4) {
-    if (!/^[0-9]{10}$/.test(input)) {
-      addMessage("⚠ Please enter a valid 10-digit number.", "bot");
+    if (!validatePhone(input)) {
+      addMessage("⚠ Please enter a valid number (India or International).", "bot");
       return;
     }
     data.phone = input;
@@ -235,6 +245,16 @@ function send() {
     emailjs.send("service_l7k00h9", "template_f56vqd7", data)
       .then(() => {
         addMessage("🎉 Thank you! I’ll get back to you shortly.", "bot");
+
+        setTimeout(() => {
+          const chatContainer = document.getElementById("chat-container");
+          const chatToggle = document.getElementById("chat-toggle");
+
+          if (chatContainer && chatToggle) {
+            chatContainer.style.display = "none";
+            chatToggle.style.display = "block";
+          }
+        }, 2000);
       })
       .catch(() => {
         addMessage("❌ Error sending message.", "bot");
@@ -249,7 +269,7 @@ function send() {
   setTimeout(botAsk, 500);
 }
 
-// CHAT TOGGLE
+// TOGGLE
 window.addEventListener("load", function(){
 
   const chatToggle = document.getElementById("chat-toggle");
