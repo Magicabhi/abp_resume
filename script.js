@@ -125,17 +125,16 @@ $(".popup").click(function(e){
   }
 });
 
-// EMAILJS INIT
+// 🔥 EMAILJS INIT
 emailjs.init("ct8es1C8Fk5H5133V");
 
+// CHATBOT LOGIC
 let step = 0;
 let data = {};
 
-// SAFE MESSAGE FUNCTION (error fix)
 function addMessage(text, sender) {
   let chatBox = document.getElementById("chat-box");
-
-  if (!chatBox) return; // 👈 prevents null error
+  if (!chatBox) return;
 
   let div = document.createElement("div");
   div.className = "msg " + sender;
@@ -145,14 +144,12 @@ function addMessage(text, sender) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// BOT QUESTIONS
 function botAsk() {
   if (step === 0) addMessage("Hi 👋 What's your name?", "bot");
   if (step === 1) addMessage("Enter your email 📧", "bot");
   if (step === 2) addMessage("Tell me your requirement 💼", "bot");
 }
 
-// SEND FUNCTION
 function send() {
   let inputField = document.getElementById("input");
   if (!inputField) return;
@@ -175,14 +172,13 @@ function send() {
 
     emailjs.send("service_l7k00h9", "template_f56vqd7", data)
       .then(() => {
-        addMessage("✅ Details sent! We will contact you soon.", "bot");
+        addMessage("🎉 Thank you! We will contact you soon.", "bot");
       })
       .catch(() => {
         addMessage("❌ Error sending message.", "bot");
       });
 
     step = 0;
-    setTimeout(botAsk, 1000);
     inputField.value = "";
     return;
   }
@@ -191,8 +187,35 @@ function send() {
   setTimeout(botAsk, 500);
 }
 
-// 🔥 IMPORTANT FIX (DOM load nantar run hoil)
-window.onload = function () {
-  setTimeout(botAsk, 500);
-};
+// 🔥 CHAT TOGGLE (OPEN/CLOSE)
+window.addEventListener("load", function(){
 
+  const chatToggle = document.getElementById("chat-toggle");
+  const chatContainer = document.getElementById("chat-container");
+  const closeChat = document.getElementById("close-chat");
+  const input = document.getElementById("input");
+
+  if (chatToggle) {
+    chatToggle.onclick = function () {
+      chatContainer.style.display = "block";
+      chatToggle.style.display = "none";
+      setTimeout(botAsk, 500);
+    };
+  }
+
+  if (closeChat) {
+    closeChat.onclick = function () {
+      chatContainer.style.display = "none";
+      chatToggle.style.display = "block";
+    };
+  }
+
+  if (input) {
+    input.addEventListener("keypress", function(e){
+      if (e.key === "Enter") {
+        send();
+      }
+    });
+  }
+
+});
