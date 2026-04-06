@@ -1042,7 +1042,7 @@ body.popup-open {
 
 #chat-toggle {
   position: fixed;
-  bottom: 100px;
+  bottom: 20px;
   right: 20px;
   background: #dc143c;
   color: white;
