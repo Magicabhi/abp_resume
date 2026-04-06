@@ -187,7 +187,6 @@ function send() {
   setTimeout(botAsk, 500);
 }
 
-// 🔥 CHAT TOGGLE (OPEN/CLOSE)
 window.addEventListener("load", function(){
 
   const chatToggle = document.getElementById("chat-toggle");
@@ -199,7 +198,13 @@ window.addEventListener("load", function(){
     chatToggle.onclick = function () {
       chatContainer.style.display = "block";
       chatToggle.style.display = "none";
-      setTimeout(botAsk, 500);
+
+      // 👇 only ask first question if chat is empty
+      const chatBox = document.getElementById("chat-box");
+
+      if (chatBox && chatBox.children.length === 0) {
+        setTimeout(botAsk, 500);
+      }
     };
   }
 
@@ -207,6 +212,7 @@ window.addEventListener("load", function(){
     closeChat.onclick = function () {
       chatContainer.style.display = "none";
       chatToggle.style.display = "block";
+      // ❌ NO RESET here
     };
   }
 
