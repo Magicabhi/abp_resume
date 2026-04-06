@@ -995,7 +995,7 @@ body.popup-open {
 }
 
 #chat-header {
-  background: #007bff;
+  background: #dc143c;
   color: white;
   padding: 10px;
   font-weight: bold;
@@ -1013,7 +1013,7 @@ body.popup-open {
 }
 
 .bot {
-  color: #007bff;
+  color: #dc143c;
 }
 
 .user {
@@ -1035,7 +1035,7 @@ body.popup-open {
 #input-area button {
   padding: 10px;
   border: none;
-  background: #007bff;
+  background: #dc143c;
   color: white;
   cursor: pointer;
 }
@@ -1044,7 +1044,7 @@ body.popup-open {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: #007bff;
+  background: #dc143c;
   color: white;
   padding: 10px 15px;
   border-radius: 25px;
@@ -1066,7 +1066,7 @@ body.popup-open {
 }
 
 #chat-header {
-  background: #007bff;
+  background: #dc143c;
   color: white;
   padding: 10px;
   display: flex;
