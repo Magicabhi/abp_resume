@@ -125,9 +125,6 @@ $(".popup").click(function(e){
   }
 });
 
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<script>
 emailjs.init("ct8es1C8Fk5H5133V");
 
 let step = 0;
@@ -181,6 +178,5 @@ function send() {
 }
 
 botAsk();
-</script>
 
 
