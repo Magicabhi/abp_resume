@@ -173,7 +173,7 @@ function send() {
   else if (step === 2) {
     data.message = input;
 
-    emailjs.send("service_l7k00h9", "template_mdcn175", data)
+    emailjs.send("service_l7k00h9", "template_f56vqd7", data)
       .then(() => {
         addMessage("✅ Details sent! We will contact you soon.", "bot");
       })
