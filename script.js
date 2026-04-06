@@ -143,29 +143,29 @@ function addMessage(text, sender, options = []) {
 
   // OPTIONS BUTTONS
   if (options.length > 0) {
-    let btnContainer = document.createElement("div");
-    btnContainer.className = "options";
+  let btnContainer = document.createElement("div");
+  btnContainer.className = "options";
 
-    options.forEach(option => {
-      let btn = document.createElement("button");
-      btn.innerText = option;
-      btn.onclick = function () {
-        addMessage(option, "user");
-        handleOption(option);
-      };
-      btnContainer.appendChild(btn);
-    });
+  options.forEach(option => {
+    let btn = document.createElement("button");
+    btn.className = "chat-option-btn"; // 👈 COMMON CLASS
+    btn.innerText = option;
 
-    chatBox.appendChild(btnContainer);
-  }
+    btn.onclick = function () {
+      addMessage(option, "user");
+      handleOption(option);
+    };
 
-  chatBox.scrollTop = chatBox.scrollHeight;
+    btnContainer.appendChild(btn);
+  });
+
+  chatBox.appendChild(btnContainer);
 }
 
 // HANDLE BUTTON CLICK
 function handleOption(option) {
   data.purpose = option;
-  step = 3;
+  step = 1;
   setTimeout(botAsk, 500);
 }
 
