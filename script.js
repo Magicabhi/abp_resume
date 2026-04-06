@@ -132,27 +132,68 @@ emailjs.init("ct8es1C8Fk5H5133V");
 let step = 0;
 let data = {};
 
-function addMessage(text, sender) {
+function addMessage(text, sender, options = []) {
   let chatBox = document.getElementById("chat-box");
   if (!chatBox) return;
 
   let div = document.createElement("div");
   div.className = "msg " + sender;
   div.innerText = text;
-
   chatBox.appendChild(div);
+
+  // OPTIONS BUTTONS
+  if (options.length > 0) {
+    let btnContainer = document.createElement("div");
+    btnContainer.className = "options";
+
+    options.forEach(option => {
+      let btn = document.createElement("button");
+      btn.innerText = option;
+      btn.onclick = function () {
+        addMessage(option, "user");
+        handleOption(option);
+      };
+      btnContainer.appendChild(btn);
+    });
+
+    chatBox.appendChild(btnContainer);
+  }
+
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+// HANDLE BUTTON CLICK
+function handleOption(option) {
+  data.purpose = option;
+  step = 3;
+  setTimeout(botAsk, 500);
+}
+
+// BOT QUESTIONS
 function botAsk() {
-  if (step === 0) addMessage("Hi 👋 I'm Abhi's assistant. How can I help you today?", "bot");
+  if (step === 0) {
+    addMessage(
+      "Hi 👋 I'm Abhi's assistant. How can I help you today?",
+      "bot",
+      [
+        "Hire a developer",
+        "Build a website",
+        "Freelance collaboration",
+        "Just exploring"
+      ]
+    );
+  }
+
   if (step === 1) addMessage("May I know your name?", "bot");
-  if (step === 2) addMessage("What are you looking for?\n1️⃣ Hire a developer\n2️⃣ Build a website\n3️⃣ Freelance collaboration\n4️⃣ Just exploring", "bot");
+
   if (step === 3) addMessage("What kind of website or work are you looking for?", "bot");
+
   if (step === 4) addMessage("Can you share your contact number?", "bot");
+
   if (step === 5) addMessage("Please share your email so we can connect with you.", "bot");
 }
 
+// SEND FUNCTION
 function send() {
   let inputField = document.getElementById("input");
   if (!inputField) return;
@@ -162,16 +203,9 @@ function send() {
 
   addMessage(input, "user");
 
-  if (step === 0) {
-    step++;
-  } 
-  else if (step === 1) {
+  if (step === 1) {
     data.name = input;
-    step++;
-  } 
-  else if (step === 2) {
-    data.purpose = input;
-    step++;
+    step = 0;
   } 
   else if (step === 3) {
     data.message = input;
@@ -210,7 +244,7 @@ function send() {
   setTimeout(botAsk, 500);
 }
 
-// CHAT TOGGLE (NO REPEAT)
+// CHAT TOGGLE
 window.addEventListener("load", function(){
 
   const chatToggle = document.getElementById("chat-toggle");
