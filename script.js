@@ -172,7 +172,7 @@ function send() {
 
     emailjs.send("service_l7k00h9", "template_f56vqd7", data)
       .then(() => {
-        addMessage("🎉 Thank you! We will contact you soon.", "bot");
+        addMessage("🎉 Thank you! I will contact you soon.", "bot");
       })
       .catch(() => {
         addMessage("❌ Error sending message.", "bot");
