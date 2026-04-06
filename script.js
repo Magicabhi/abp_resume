@@ -57,7 +57,7 @@ $(document).ready(function(){
 });
 
 // contact form (Formspree + animation)
-const form = document.getElementById('contactForm');
+let form = document.getElementById('contactForm');
 if (form) {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
