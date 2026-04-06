@@ -125,27 +125,39 @@ $(".popup").click(function(e){
   }
 });
 
+// EMAILJS INIT
 emailjs.init("ct8es1C8Fk5H5133V");
 
 let step = 0;
 let data = {};
 
+// SAFE MESSAGE FUNCTION (error fix)
 function addMessage(text, sender) {
+  let chatBox = document.getElementById("chat-box");
+
+  if (!chatBox) return; // 👈 prevents null error
+
   let div = document.createElement("div");
   div.className = "msg " + sender;
   div.innerText = text;
-  document.getElementById("chat-box").appendChild(div);
-  document.getElementById("chat-box").scrollTop = 9999;
+
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+// BOT QUESTIONS
 function botAsk() {
   if (step === 0) addMessage("Hi 👋 What's your name?", "bot");
   if (step === 1) addMessage("Enter your email 📧", "bot");
   if (step === 2) addMessage("Tell me your requirement 💼", "bot");
 }
 
+// SEND FUNCTION
 function send() {
-  let input = document.getElementById("input").value;
+  let inputField = document.getElementById("input");
+  if (!inputField) return;
+
+  let input = inputField.value.trim();
   if (!input) return;
 
   addMessage(input, "user");
@@ -153,10 +165,12 @@ function send() {
   if (step === 0) {
     data.name = input;
     step++;
-  } else if (step === 1) {
+  } 
+  else if (step === 1) {
     data.email = input;
     step++;
-  } else if (step === 2) {
+  } 
+  else if (step === 2) {
     data.message = input;
 
     emailjs.send("service_l7k00h9", "template_mdcn175", data)
@@ -169,14 +183,16 @@ function send() {
 
     step = 0;
     setTimeout(botAsk, 1000);
-    document.getElementById("input").value = "";
+    inputField.value = "";
     return;
   }
 
-  document.getElementById("input").value = "";
+  inputField.value = "";
   setTimeout(botAsk, 500);
 }
 
-botAsk();
-
+// 🔥 IMPORTANT FIX (DOM load nantar run hoil)
+window.onload = function () {
+  setTimeout(botAsk, 500);
+};
 
