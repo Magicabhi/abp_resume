@@ -125,7 +125,7 @@ $(".popup").click(function(e){
   }
 });
 
-// 🔥 EMAILJS INIT
+// EMAILJS INIT
 emailjs.init("ct8es1C8Fk5H5133V");
 
 // CHATBOT LOGIC
@@ -145,9 +145,12 @@ function addMessage(text, sender) {
 }
 
 function botAsk() {
-  if (step === 0) addMessage("Hi 👋 What's your name?", "bot");
-  if (step === 1) addMessage("Enter your email 📧", "bot");
-  if (step === 2) addMessage("Tell me your requirement 💼", "bot");
+  if (step === 0) addMessage("Hi 👋 I'm Abhi's assistant. How can I help you today?", "bot");
+  if (step === 1) addMessage("May I know your name?", "bot");
+  if (step === 2) addMessage("What are you looking for?\n1️⃣ Hire a developer\n2️⃣ Build a website\n3️⃣ Freelance collaboration\n4️⃣ Just exploring", "bot");
+  if (step === 3) addMessage("What kind of website or work are you looking for?", "bot");
+  if (step === 4) addMessage("Can you share your contact number?", "bot");
+  if (step === 5) addMessage("Please share your email so we can connect with you.", "bot");
 }
 
 function send() {
@@ -160,19 +163,39 @@ function send() {
   addMessage(input, "user");
 
   if (step === 0) {
-    data.name = input;
     step++;
   } 
   else if (step === 1) {
-    data.email = input;
+    data.name = input;
     step++;
   } 
   else if (step === 2) {
+    data.purpose = input;
+    step++;
+  } 
+  else if (step === 3) {
     data.message = input;
+    step++;
+  }
+  else if (step === 4) {
+    if (!/^[0-9]{10}$/.test(input)) {
+      addMessage("⚠ Please enter a valid 10-digit number.", "bot");
+      return;
+    }
+    data.phone = input;
+    step++;
+  }
+  else if (step === 5) {
+    if (!input.includes("@")) {
+      addMessage("⚠ Please enter a valid email.", "bot");
+      return;
+    }
+
+    data.email = input;
 
     emailjs.send("service_l7k00h9", "template_f56vqd7", data)
       .then(() => {
-        addMessage("🎉 Thank you! I will contact you soon.", "bot");
+        addMessage("🎉 Thank you! I’ll get back to you shortly.", "bot");
       })
       .catch(() => {
         addMessage("❌ Error sending message.", "bot");
@@ -187,6 +210,7 @@ function send() {
   setTimeout(botAsk, 500);
 }
 
+// CHAT TOGGLE (NO REPEAT)
 window.addEventListener("load", function(){
 
   const chatToggle = document.getElementById("chat-toggle");
@@ -199,7 +223,6 @@ window.addEventListener("load", function(){
       chatContainer.style.display = "block";
       chatToggle.style.display = "none";
 
-      // 👇 only ask first question if chat is empty
       const chatBox = document.getElementById("chat-box");
 
       if (chatBox && chatBox.children.length === 0) {
@@ -212,7 +235,6 @@ window.addEventListener("load", function(){
     closeChat.onclick = function () {
       chatContainer.style.display = "none";
       chatToggle.style.display = "block";
-      // ❌ NO RESET here
     };
   }
 
