@@ -132,15 +132,25 @@ emailjs.init("ct8es1C8Fk5H5133V");
 let step = 0;
 let data = {};
 
-// PHONE VALIDATION
+// PHONE VALIDATION (UPDATED - STRICT)
 function validatePhone(phone) {
   phone = phone.replace(/\s+/g, "");
 
-  if (/^[6-9]\d{9}$/.test(phone)) return true;
-  if (/^\+91[6-9]\d{9}$/.test(phone)) return true;
-  if (/^\+?[1-9]\d{7,14}$/.test(phone)) return true;
-
-  return false;
+  // If starts with +
+  if (phone.startsWith("+")) {
+    // Allow only + followed by digits (total length 11–15)
+    if (/^\+[1-9]\d{10,14}$/.test(phone)) {
+      return true;
+    }
+    return false;
+  } 
+  else {
+    // बिना country code → exactly 10 digits
+    if (/^\d{10}$/.test(phone)) {
+      return true;
+    }
+    return false;
+  }
 }
 
 // ADD MESSAGE
@@ -179,8 +189,25 @@ function addMessage(text, sender, options = []) {
 
 // HANDLE OPTION
 function handleOption(option) {
-  data.purpose = option;
-  step = 1;
+
+  // STEP 0 → PURPOSE
+  if (step === 0) {
+    data.purpose = option;
+    step = 1;
+  } 
+
+  // STEP 3 → WEBSITE TYPE
+  else if (step === 3) {
+    if (option === "Other") {
+      addMessage("Please describe your requirement.", "bot");
+      step = 3.5;
+      return;
+    } else {
+      data.message = option;
+      step = 4;
+    }
+  }
+
   setTimeout(botAsk, 500);
 }
 
@@ -199,13 +226,31 @@ function botAsk() {
     );
   }
 
-  if (step === 1) addMessage("May I know your name?", "bot");
+  if (step === 1) {
+    addMessage("May I know your name?", "bot");
+  }
 
-  if (step === 3) addMessage("What kind of website or work are you looking for?", "bot");
+  if (step === 3) {
+    addMessage(
+      "What kind of website or work are you looking for?",
+      "bot",
+      [
+        "Business Website",
+        "E-commerce Website",
+        "Portfolio Website",
+        "Web App / Custom Project",
+        "Other"
+      ]
+    );
+  }
 
-  if (step === 4) addMessage("📞 Please enter your contact number (e.g. +91XXXXXXXXXX)", "bot");
+  if (step === 4) {
+    addMessage("📞 Please enter your contact number (e.g. +91XXXXXXXXXX or 10 digit number)", "bot");
+  }
 
-  if (step === 5) addMessage("Please share your email so we can connect with you.", "bot");
+  if (step === 5) {
+    addMessage("Please share your email so we can connect with you.", "bot");
+  }
 }
 
 // SEND
@@ -222,19 +267,22 @@ function send() {
     data.name = input;
     step = 3;
   } 
-  else if (step === 3) {
+  else if (step === 3.5) {
     data.message = input;
-    step++;
+    step = 4;
   }
   else if (step === 4) {
+
     if (!validatePhone(input)) {
-      addMessage("⚠ Please enter a valid number (India or International).", "bot");
+      addMessage("⚠ Enter valid number: 10 digits OR country code with total 11–15 digits only.", "bot");
       return;
     }
+
     data.phone = input;
-    step++;
+    step = 5;
   }
   else if (step === 5) {
+
     if (!input.includes("@")) {
       addMessage("⚠ Please enter a valid email.", "bot");
       return;
