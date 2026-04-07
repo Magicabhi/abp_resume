@@ -507,9 +507,9 @@ section .title::after{
     overflow: hidden;
     transition: all 0.3s ease;
 }
-.teams .carousel .card:hover{
+/* .teams .carousel .card:hover{
     background: crimson;
-}
+} */
 .teams .carousel .card .box{
     display: flex;
     flex-direction: column;
@@ -531,12 +531,12 @@ section .title::after{
        /* width: 150px; */
     object-fit: contain;
     border-radius: 0px;
-    border: 2px solid crimson;
+    /* border: 2px solid crimson; */
     transition: all 0.3s ease;
 }
-.teams .carousel .card:hover img{
+/* .teams .carousel .card:hover img{
     border-color: #fff;
-}
+} */
 .owl-dots{
     text-align: center;
     margin-top: 20px;
