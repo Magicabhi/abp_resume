@@ -355,11 +355,6 @@ window.addEventListener("load", function(){
 
 });
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
-
-<script>
-
   // Phone Input Setup
   const phoneInput = document.querySelector("#phone");
 
@@ -415,5 +410,3 @@ window.addEventListener("load", function(){
 
     return true;
   }
-
-</script>
