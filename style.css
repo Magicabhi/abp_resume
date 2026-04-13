@@ -1180,7 +1180,6 @@ button.chat-option-btn:hover {
 form {
       background: #fff;
       padding: 25px;
-      width: 360px;
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
@@ -1202,7 +1201,7 @@ form {
       outline: none;
     }
 
-    button {
+    /* button {
       width: 100%;
       padding: 10px;
       border: none;
@@ -1215,4 +1214,4 @@ form {
 
     button:hover {
       background: #0056b3;
-    }
+    } */
