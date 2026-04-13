@@ -354,3 +354,66 @@ window.addEventListener("load", function(){
   }
 
 });
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
+
+<script>
+
+  // Phone Input Setup
+  const phoneInput = document.querySelector("#phone");
+
+  const iti = window.intlTelInput(phoneInput, {
+    initialCountry: "in",
+    separateDialCode: true,
+    preferredCountries: ["in", "us", "gb"]
+  });
+
+  // Subject dropdown logic
+  document.getElementById("subject").addEventListener("change", function() {
+    let customField = document.getElementById("customSubjectField");
+
+    if (this.value === "Other") {
+      customField.style.display = "block";
+    } else {
+      customField.style.display = "none";
+    }
+  });
+
+  function validateForm() {
+
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let subject = document.getElementById("subject").value;
+    let customSubject = document.getElementById("customSubject").value.trim();
+
+    // Name validation
+    let namePattern = /^[A-Za-z\s]+$/;
+    if (!namePattern.test(name)) {
+      alert("Name should contain only letters");
+      return false;
+    }
+
+    // Email validation
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    if (!emailPattern.test(email)) {
+      alert("Enter valid email");
+      return false;
+    }
+
+    // Phone validation (library)
+    if (!iti.isValidNumber()) {
+      alert("Enter valid phone number");
+      return false;
+    }
+
+    // Custom subject check
+    if (subject === "Other" && customSubject === "") {
+      alert("Please enter custom subject");
+      return false;
+    }
+
+    return true;
+  }
+
+</script>
