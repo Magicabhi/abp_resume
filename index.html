@@ -307,7 +307,7 @@ Currently, I am working as a Web Developer where I handle real-world client proj
         </div>
         <div class="column right">
           <div class="text">Message me</div>
-          <form id="contactForm" action="https://formspree.io/f/xldwqrgd" method="POST">
+          <!-- <form id="contactForm" action="https://formspree.io/f/xldwqrgd" method="POST">
             <div class="fields">
               <div class="field name"><input type="text" name="name" placeholder="Name" required /></div>
               <div class="field email"><input type="email" name="email" placeholder="Email" required /></div>
@@ -315,7 +315,37 @@ Currently, I am working as a Web Developer where I handle real-world client proj
             <div class="field"><input type="text" name="subject" placeholder="Subject" required /></div>
             <div class="field textarea"><textarea name="message" cols="30" rows="10" placeholder="Message.." required></textarea></div>
             <div class="button-area"><button type="submit">Send message</button></div>
-          </form>
+          </form> -->
+          <form id="contactForm" action="https://formspree.io/f/xldwqrgd" method="POST" onsubmit="return validateForm()">
+  <div class="field">
+    <input type="text" id="name" name="name" placeholder="Your Name" required="">
+  </div>
+  <div class="field">
+    <input type="email" id="email" name="email" placeholder="Your Email" required="">
+  </div>
+  <div class="field">
+    <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required="">
+  </div>
+  <div class="field">
+    <select id="subject" name="subject" required="">
+      <option value="">-- Select Subject --</option>
+      <option value="Hiring">Hiring / Job Opportunity</option>
+      <option value="Project">Project Work</option>
+      <option value="Freelance">Freelance Inquiry</option>
+      <option value="Collaboration">Collaboration</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+  <div class="field" id="customSubjectField" style="display:none;">
+    <input type="text" id="customSubject" name="customSubject" placeholder="Enter your subject">
+  </div>
+  <div class="field">
+    <textarea id="message" name="message" rows="5" placeholder="Your Message..." required=""></textarea>
+  </div>
+  <div class="field">
+    <button type="submit">Send Message</button>
+  </div>
+</form>
         </div>
       </div>
     </div>
