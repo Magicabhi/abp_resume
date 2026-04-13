@@ -1220,3 +1220,7 @@ form {
        width:100%;
        height:45px;
     }
+
+    .select-lform {
+    height: 45px;
+    }
