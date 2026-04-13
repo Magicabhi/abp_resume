@@ -1103,7 +1103,7 @@ button.chat-option-btn:hover {
     height: 60px;
     bottom: 40px;
     left: 15px;
-    /* background-color: #25d366; */
+    background-color: #fff;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -1142,7 +1142,7 @@ button.chat-option-btn:hover {
     animation: zoomPulse 1.5s infinite, glow 1.5s infinite;
 }
 
-@keyframes glow {
+/* @keyframes glow {
     0% {
         box-shadow: 0 0 5px #25d366;
     }
@@ -1152,4 +1152,4 @@ button.chat-option-btn:hover {
     100% {
         box-shadow: 0 0 5px #25d366;
     }
-}
+} */
