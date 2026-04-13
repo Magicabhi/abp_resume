@@ -105,25 +105,25 @@ $(document).ready(function(){
   });
 });
 
-$(".card").click(function(){
-  var popupId = $(this).data("popup");
-  $("body").addClass("popup-open");
-  $("#" + popupId).css("display","flex").hide().fadeIn();
-});
+// $(".card").click(function(){
+//   var popupId = $(this).data("popup");
+//   $("body").addClass("popup-open");
+//   $("#" + popupId).css("display","flex").hide().fadeIn();
+// });
 
-$(".popup .close").click(function(){
-  $(this).closest(".popup").fadeOut(function(){
-    $("body").removeClass("popup-open");
-  });
-});
+// $(".popup .close").click(function(){
+//   $(this).closest(".popup").fadeOut(function(){
+//     $("body").removeClass("popup-open");
+//   });
+// });
 
-$(".popup").click(function(e){
-  if($(e.target).hasClass("popup")){
-    $(this).fadeOut(function(){
-      $("body").removeClass("popup-open");
-    });
-  }
-});
+// $(".popup").click(function(e){
+//   if($(e.target).hasClass("popup")){
+//     $(this).fadeOut(function(){
+//       $("body").removeClass("popup-open");
+//     });
+//   }
+// });
 
 // EMAILJS INIT
 emailjs.init("ct8es1C8Fk5H5133V");
