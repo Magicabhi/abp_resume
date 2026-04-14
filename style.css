@@ -1212,3 +1212,14 @@ form {
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
     }
+
+   .error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+.error-border {
+  border: 1px solid red !important;
+}
