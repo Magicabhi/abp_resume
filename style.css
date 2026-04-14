@@ -1218,6 +1218,7 @@ form {
   font-size: 12px;
   margin-top: 4px;
   display: block;
+  padding-bottom:10px;
 }
 
 .error-border {
