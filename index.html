@@ -319,33 +319,46 @@ Currently, I am working as a Web Developer where I handle real-world client proj
             <div class="field textarea"><textarea name="message" cols="30" rows="10" placeholder="Message.." required></textarea></div>
             <div class="button-area"><button type="submit">Send message</button></div>
           </form> -->
-          <form id="contactForm" action="https://formspree.io/f/xldwqrgd" method="POST" onsubmit="return validateForm()">
+          <form id="contactForm" action="https://formspree.io/f/xldwqrgd" method="POST" onsubmit="return validateForm(event)">
+  
   <div class="field">
-    <input type="text" id="name" name="name" placeholder="Your Name" required="">
+    <input type="text" id="name" name="name" placeholder="Name">
+    <span class="error" id="nameError"></span>
   </div>
+
   <div class="field">
-    <input type="email" id="email" name="email" placeholder="Your Email">
+    <input type="email" id="email" name="email" placeholder="Email">
   </div>
+
   <div class="field">
-    <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required="">
+    <input type="tel" id="phone" name="phone" placeholder="Phone Number">
+    <span class="error" id="phoneError"></span>
   </div>
+
   <div class="field">
-    <select id="subject" class="select-lform" name="subject" required="">
-      <option value="">-- Select Subject --</option>
+    <select id="subject" class="select-lform" name="subject">
+      <option value="">Select Subject</option>
       <option value="Hiring">Hiring / Job Opportunity</option>
       <option value="Project">Project Work</option>
       <option value="Freelance">Freelance Inquiry</option>
       <option value="Collaboration">Collaboration</option>
       <option value="Other">Other</option>
     </select>
+    <span class="error" id="subjectError"></span>
   </div>
+
   <div class="field" id="customSubjectField" style="display:none;">
     <input type="text" id="customSubject" name="customSubject" placeholder="Enter your subject">
   </div>
-  <div class="field textarea"><textarea name="message" cols="30" rows="10" placeholder="Message.."></textarea></div>
+
+  <div class="field textarea">
+    <textarea name="message" cols="30" rows="10" placeholder="Message.."></textarea>
+  </div>
+
   <div class="field">
     <button type="submit" class="landing-btn">Send Message</button>
   </div>
+
 </form>
         </div>
       </div>
@@ -424,6 +437,7 @@ Currently, I am working as a Web Developer where I handle real-world client proj
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+  const form = document.getElementById("contactForm");
   const phoneInput = document.querySelector("#phone");
 
   const iti = window.intlTelInput(phoneInput, {
@@ -437,55 +451,107 @@ document.addEventListener("DOMContentLoaded", function () {
   const customField = document.getElementById("customSubjectField");
 
   subjectDropdown.addEventListener("change", function () {
-    if (this.value === "Other") {
-      customField.style.display = "block";
-    } else {
-      customField.style.display = "none";
-    }
+    customField.style.display = this.value === "Other" ? "block" : "none";
   });
 
-  window.validateForm = function () {
+  window.validateForm = function (event) {
 
-    let name = document.getElementById("name").value.trim();
-    let subject = subjectDropdown.value;
+    event.preventDefault();
 
-    // ✅ Name required + only letters
+    let isValid = true;
+
+    let name = document.getElementById("name");
+    let phone = document.getElementById("phone");
+    let subject = document.getElementById("subject");
+
+    let nameError = document.getElementById("nameError");
+    let phoneError = document.getElementById("phoneError");
+    let subjectError = document.getElementById("subjectError");
+
+    // Reset
+    nameError.textContent = "";
+    phoneError.textContent = "";
+    subjectError.textContent = "";
+
+    name.classList.remove("error-border");
+    phone.classList.remove("error-border");
+    subject.classList.remove("error-border");
+
+    // ✅ Name validation
+    let nameValue = name.value.trim();
     let namePattern = /^[A-Za-z\s]+$/;
-    if (name === "") {
-      alert("Name is required");
-      return false;
-    }
-    if (!namePattern.test(name)) {
-      alert("Name should contain only letters");
-      return false;
+
+    if (nameValue === "") {
+      nameError.textContent = "Name is required";
+      name.classList.add("error-border");
+      isValid = false;
+    } else if (!namePattern.test(nameValue)) {
+      nameError.textContent = "Only letters allowed";
+      name.classList.add("error-border");
+      isValid = false;
     }
 
-    // ✅ Subject required
-    if (subject === "" || subject === "Select") {
-      alert("Please select a subject");
-      return false;
+    // ✅ Phone validation (exact 10 digits)
+    let phoneNumber = iti.getNumber().replace(/\D/g, "");
+
+    if (phoneNumber.length !== 10) {
+      phoneError.textContent = "Enter valid 10 digit number";
+      phone.classList.add("error-border");
+      isValid = false;
     }
 
-    // ✅ Phone required + valid
-    if (!iti.isValidNumber()) {
-      alert("Enter valid phone number");
-      return false;
+    // ✅ Subject validation
+    if (subject.value === "") {
+      subjectError.textContent = "Please select subject";
+      subject.classList.add("error-border");
+      isValid = false;
     }
 
-    return true;
+    // ❌ Stop if invalid
+    if (!isValid) return false;
+
+    // ✅ Submit to Formspree
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: "POST",
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(response => {
+      if (response.ok) {
+
+        form.reset();
+        iti.setNumber("");
+
+        showSuccessMessage();
+
+      }
+    });
+
+    return false;
   };
 
-  // 🔒 Prevent wrong typing
-
-  // Name field → numbers block
+  // 🔒 Restrict typing
   document.getElementById("name").addEventListener("input", function () {
     this.value = this.value.replace(/[^A-Za-z\s]/g, '');
   });
 
-  // Phone field → letters block
   document.getElementById("phone").addEventListener("input", function () {
     this.value = this.value.replace(/[^0-9]/g, '');
   });
+
+  // ✅ Success message
+  function showSuccessMessage() {
+    let msg = document.createElement("div");
+    msg.innerText = "Thank you! Your message has been submitted successfully.";
+    msg.style.color = "green";
+    msg.style.marginTop = "15px";
+
+    form.appendChild(msg);
+
+    setTimeout(() => msg.remove(), 4000);
+  }
 
 });
 </script>
