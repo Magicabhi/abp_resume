@@ -438,9 +438,9 @@ Currently, I am working as a Web Developer where I handle real-world client proj
 document.addEventListener("DOMContentLoaded", function () {
 
   const form = document.getElementById("contactForm");
-  const phone = document.getElementById("phone");
   const name = document.getElementById("name");
   const email = document.getElementById("email");
+  const phone = document.getElementById("phone");
   const subject = document.getElementById("subject");
 
   const nameError = document.getElementById("nameError");
@@ -449,6 +449,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const button = document.querySelector(".landing-btn");
 
+  // ✅ intl tel input
   const iti = window.intlTelInput(phone, {
     initialCountry: "in",
     separateDialCode: true,
@@ -456,7 +457,7 @@ document.addEventListener("DOMContentLoaded", function () {
     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
   });
 
-  // ✅ ERROR HANDLING
+  // ✅ error helpers
   function showError(field, errorEl, message) {
     field.classList.add("error-border");
     errorEl.textContent = message;
@@ -467,13 +468,11 @@ document.addEventListener("DOMContentLoaded", function () {
     errorEl.textContent = "";
   }
 
-  // ✅ NAME VALIDATION (STRICT)
+  // ✅ NAME VALIDATION
   function validateName() {
-    let raw = name.value;
-    let value = raw.trim();
+    let value = name.value.trim();
 
-    // 👇 key fix: only spaces detect
-    if (!value || value.replace(/\s/g, "") === "") {
+    if (value === "" || value.replace(/\s/g, "") === "") {
       showError(name, nameError, "Name is required");
       return false;
     }
@@ -487,12 +486,11 @@ document.addEventListener("DOMContentLoaded", function () {
     return true;
   }
 
-  // ✅ EMAIL (optional but no only spaces)
+  // ✅ EMAIL (optional but no spaces only)
   function validateEmail() {
-    let raw = email.value;
-    let value = raw.trim();
+    let value = email.value.trim();
 
-    if (value === "") return true; // optional
+    if (value === "") return true;
 
     if (value.replace(/\s/g, "") === "") {
       return false;
@@ -501,19 +499,20 @@ document.addEventListener("DOMContentLoaded", function () {
     return true;
   }
 
-  // ✅ PHONE VALIDATION (STRICT)
+  // ✅ PHONE VALIDATION (strict + country code)
   function validatePhone() {
     let raw = phone.value;
 
-    // 👇 prevent only spaces
     if (!raw || raw.replace(/\s/g, "") === "") {
       showError(phone, phoneError, "Phone is required");
       return false;
     }
 
-    let value = iti.getNumber().replace(/\D/g, "");
+    let number = iti.getNumber();
+    let digits = number.replace(/\D/g, "");
 
-    if (value.length !== 12) {
+    // India → 12 digits (91 + 10)
+    if (digits.length !== 12) {
       showError(phone, phoneError, "Enter valid 10 digit number");
       return false;
     }
@@ -522,12 +521,13 @@ document.addEventListener("DOMContentLoaded", function () {
     return true;
   }
 
-  // ✅ SUBJECT
+  // ✅ SUBJECT VALIDATION
   function validateSubject() {
     if (subject.value === "") {
       showError(subject, subjectError, "Select subject");
       return false;
     }
+
     clearError(subject, subjectError);
     return true;
   }
@@ -545,20 +545,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   subject.addEventListener("change", validateSubject);
 
-  // ✅ SUBMIT
+  // ✅ FINAL SUBMIT HANDLER
   window.validateForm = function (event) {
 
-    event.preventDefault();
+    event.preventDefault(); // 🚨 always stop first
 
-    let isValid =
-      validateName() &&
-      validatePhone() &&
-      validateSubject() &&
-      validateEmail();
+    let isValid = true;
 
+    if (!validateName()) isValid = false;
+    if (!validatePhone()) isValid = false;
+    if (!validateSubject()) isValid = false;
+    if (!validateEmail()) isValid = false;
+
+    // ❌ STOP submit
     if (!isValid) return false;
 
-    // loading
+    // 🔄 loading
     button.disabled = true;
     button.innerText = "Sending...";
 
@@ -567,10 +569,11 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(form.action, {
       method: "POST",
       body: formData,
-      headers: { 'Accept': 'application/json' }
+      headers: { "Accept": "application/json" }
     })
-    .then(res => {
-      if (res.ok) {
+    .then(response => {
+      if (response.ok) {
+
         form.reset();
         iti.setNumber("");
 
@@ -578,13 +581,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
         button.disabled = false;
         button.innerText = "Send Message";
+      } else {
+        button.disabled = false;
+        button.innerText = "Send Message";
       }
+    })
+    .catch(() => {
+      button.disabled = false;
+      button.innerText = "Send Message";
     });
 
     return false;
   };
 
-  // ✅ SUCCESS
+  // ✅ SUCCESS MESSAGE
   function showSuccessMessage() {
     let msg = document.createElement("div");
     msg.innerText = "✔ Thank you! Your message has been sent successfully.";
