@@ -440,6 +440,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("contactForm");
   const phone = document.getElementById("phone");
   const name = document.getElementById("name");
+  const email = document.getElementById("email");
   const subject = document.getElementById("subject");
 
   const nameError = document.getElementById("nameError");
@@ -448,7 +449,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const button = document.querySelector(".landing-btn");
 
-  // ✅ INTL TEL INPUT (country code fix)
   const iti = window.intlTelInput(phone, {
     initialCountry: "in",
     separateDialCode: true,
@@ -456,13 +456,7 @@ document.addEventListener("DOMContentLoaded", function () {
     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
   });
 
-  // ✅ SUBJECT DROPDOWN (Other option)
-  const customField = document.getElementById("customSubjectField");
-  subject.addEventListener("change", function () {
-    customField.style.display = this.value === "Other" ? "block" : "none";
-  });
-
-  // ✅ COMMON FUNCTIONS
+  // ✅ ERROR HANDLING
   function showError(field, errorEl, message) {
     field.classList.add("error-border");
     errorEl.textContent = message;
@@ -473,45 +467,69 @@ document.addEventListener("DOMContentLoaded", function () {
     errorEl.textContent = "";
   }
 
-  // ✅ NAME VALIDATION
+  // ✅ NAME VALIDATION (STRICT)
   function validateName() {
-    let value = name.value.trim();
+    let raw = name.value;
+    let value = raw.trim();
 
-    if (!value) {
+    // 👇 key fix: only spaces detect
+    if (!value || value.replace(/\s/g, "") === "") {
       showError(name, nameError, "Name is required");
       return false;
-    } else if (!/^[A-Za-z]+(\s[A-Za-z]+)*$/.test(value)) {
+    }
+
+    if (!/^[A-Za-z\s]+$/.test(value)) {
       showError(name, nameError, "Only letters allowed");
       return false;
-    } else {
-      clearError(name, nameError);
-      return true;
     }
+
+    clearError(name, nameError);
+    return true;
   }
 
-  // ✅ PHONE VALIDATION (country code included)
+  // ✅ EMAIL (optional but no only spaces)
+  function validateEmail() {
+    let raw = email.value;
+    let value = raw.trim();
+
+    if (value === "") return true; // optional
+
+    if (value.replace(/\s/g, "") === "") {
+      return false;
+    }
+
+    return true;
+  }
+
+  // ✅ PHONE VALIDATION (STRICT)
   function validatePhone() {
+    let raw = phone.value;
+
+    // 👇 prevent only spaces
+    if (!raw || raw.replace(/\s/g, "") === "") {
+      showError(phone, phoneError, "Phone is required");
+      return false;
+    }
+
     let value = iti.getNumber().replace(/\D/g, "");
 
-    // India: +91 + 10 digits = 12 digits
     if (value.length !== 12) {
       showError(phone, phoneError, "Enter valid 10 digit number");
       return false;
-    } else {
-      clearError(phone, phoneError);
-      return true;
     }
+
+    clearError(phone, phoneError);
+    return true;
   }
 
-  // ✅ SUBJECT VALIDATION
+  // ✅ SUBJECT
   function validateSubject() {
     if (subject.value === "") {
       showError(subject, subjectError, "Select subject");
       return false;
-    } else {
-      clearError(subject, subjectError);
-      return true;
     }
+    clearError(subject, subjectError);
+    return true;
   }
 
   // 🔒 INPUT RESTRICTIONS
@@ -527,20 +545,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   subject.addEventListener("change", validateSubject);
 
-  // ✅ FORM SUBMIT
+  // ✅ SUBMIT
   window.validateForm = function (event) {
 
     event.preventDefault();
 
-    let isNameValid = validateName();
-    let isPhoneValid = validatePhone();
-    let isSubjectValid = validateSubject();
+    let isValid =
+      validateName() &&
+      validatePhone() &&
+      validateSubject() &&
+      validateEmail();
 
-    if (!(isNameValid && isPhoneValid && isSubjectValid)) {
-      return false;
-    }
+    if (!isValid) return false;
 
-    // 🔄 Button loading
+    // loading
     button.disabled = true;
     button.innerText = "Sending...";
 
@@ -551,9 +569,8 @@ document.addEventListener("DOMContentLoaded", function () {
       body: formData,
       headers: { 'Accept': 'application/json' }
     })
-    .then(response => {
-      if (response.ok) {
-
+    .then(res => {
+      if (res.ok) {
         form.reset();
         iti.setNumber("");
 
@@ -562,22 +579,17 @@ document.addEventListener("DOMContentLoaded", function () {
         button.disabled = false;
         button.innerText = "Send Message";
       }
-    })
-    .catch(() => {
-      button.disabled = false;
-      button.innerText = "Send Message";
     });
 
     return false;
   };
 
-  // ✅ SUCCESS MESSAGE
+  // ✅ SUCCESS
   function showSuccessMessage() {
     let msg = document.createElement("div");
     msg.innerText = "✔ Thank you! Your message has been sent successfully.";
     msg.style.color = "green";
     msg.style.marginTop = "15px";
-    msg.style.fontWeight = "500";
 
     form.appendChild(msg);
 
