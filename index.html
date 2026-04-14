@@ -438,79 +438,97 @@ Currently, I am working as a Web Developer where I handle real-world client proj
 document.addEventListener("DOMContentLoaded", function () {
 
   const form = document.getElementById("contactForm");
-  const phoneInput = document.querySelector("#phone");
+  const phone = document.getElementById("phone");
+  const name = document.getElementById("name");
+  const subject = document.getElementById("subject");
 
-  const iti = window.intlTelInput(phoneInput, {
-    initialCountry: "in",
-    separateDialCode: true,
-    preferredCountries: ["in", "us", "gb"],
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+  const nameError = document.getElementById("nameError");
+  const phoneError = document.getElementById("phoneError");
+  const subjectError = document.getElementById("subjectError");
+
+  const button = document.querySelector(".landing-btn");
+
+  // ✅ LIVE VALIDATION FUNCTIONS
+
+  function validateName() {
+    let value = name.value.trim();
+
+    if (!value) {
+      showError(name, nameError, "Name is required");
+      return false;
+    } else if (!/^[A-Za-z]+(\s[A-Za-z]+)*$/.test(value)) {
+      showError(name, nameError, "Only letters allowed");
+      return false;
+    } else {
+      clearError(name, nameError);
+      return true;
+    }
+  }
+
+  function validatePhone() {
+    let value = phone.value.replace(/\D/g, "");
+
+    if (value.length !== 10) {
+      showError(phone, phoneError, "Enter 10 digit number");
+      return false;
+    } else {
+      clearError(phone, phoneError);
+      return true;
+    }
+  }
+
+  function validateSubject() {
+    if (subject.value === "") {
+      showError(subject, subjectError, "Select subject");
+      return false;
+    } else {
+      clearError(subject, subjectError);
+      return true;
+    }
+  }
+
+  function showError(field, errorEl, message) {
+    field.classList.add("error-border");
+    errorEl.textContent = message;
+  }
+
+  function clearError(field, errorEl) {
+    field.classList.remove("error-border");
+    errorEl.textContent = "";
+  }
+
+  // 🔒 INPUT RESTRICTIONS
+
+  name.addEventListener("input", function () {
+    this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+    validateName();
   });
 
-  const subjectDropdown = document.getElementById("subject");
-  const customField = document.getElementById("customSubjectField");
-
-  subjectDropdown.addEventListener("change", function () {
-    customField.style.display = this.value === "Other" ? "block" : "none";
+  phone.addEventListener("input", function () {
+    this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+    validatePhone();
   });
+
+  subject.addEventListener("change", validateSubject);
+
+  // ✅ FORM SUBMIT
 
   window.validateForm = function (event) {
 
     event.preventDefault();
 
-    let isValid = true;
+    let isNameValid = validateName();
+    let isPhoneValid = validatePhone();
+    let isSubjectValid = validateSubject();
 
-    let name = document.getElementById("name");
-    let phone = document.getElementById("phone");
-    let subject = document.getElementById("subject");
-
-    let nameError = document.getElementById("nameError");
-    let phoneError = document.getElementById("phoneError");
-    let subjectError = document.getElementById("subjectError");
-
-    // Reset
-    nameError.textContent = "";
-    phoneError.textContent = "";
-    subjectError.textContent = "";
-
-    name.classList.remove("error-border");
-    phone.classList.remove("error-border");
-    subject.classList.remove("error-border");
-
-    // ✅ Name validation
-    let nameValue = name.value.trim();
-    let namePattern = /^[A-Za-z\s]+$/;
-
-    if (nameValue === "") {
-      nameError.textContent = "Name is required";
-      name.classList.add("error-border");
-      isValid = false;
-    } else if (!namePattern.test(nameValue)) {
-      nameError.textContent = "Only letters allowed";
-      name.classList.add("error-border");
-      isValid = false;
+    if (!(isNameValid && isPhoneValid && isSubjectValid)) {
+      return false;
     }
 
-    // ✅ Phone validation (exact 10 digits)
-    let phoneNumber = iti.getNumber().replace(/\D/g, "");
+    // 🔄 Button loading
+    button.disabled = true;
+    button.innerText = "Sending...";
 
-    if (phoneNumber.length !== 10) {
-      phoneError.textContent = "Enter valid 10 digit number";
-      phone.classList.add("error-border");
-      isValid = false;
-    }
-
-    // ✅ Subject validation
-    if (subject.value === "") {
-      subjectError.textContent = "Please select subject";
-      subject.classList.add("error-border");
-      isValid = false;
-    }
-
-    // ❌ Stop if invalid
-    if (!isValid) return false;
-
-    // ✅ Submit to Formspree
     const formData = new FormData(form);
 
     fetch(form.action, {
@@ -522,31 +540,29 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.ok) {
 
         form.reset();
-        iti.setNumber("");
 
         showSuccessMessage();
 
+        button.disabled = false;
+        button.innerText = "Send Message";
       }
+    })
+    .catch(() => {
+      button.disabled = false;
+      button.innerText = "Send Message";
     });
 
     return false;
   };
 
-  // 🔒 Restrict typing
-  document.getElementById("name").addEventListener("input", function () {
-    this.value = this.value.replace(/[^A-Za-z\s]/g, '');
-  });
+  // ✅ SUCCESS MESSAGE (professional)
 
-  document.getElementById("phone").addEventListener("input", function () {
-    this.value = this.value.replace(/[^0-9]/g, '');
-  });
-
-  // ✅ Success message
   function showSuccessMessage() {
     let msg = document.createElement("div");
-    msg.innerText = "Thank you! Your message has been submitted successfully.";
+    msg.innerText = "✔ Thank you! Your message has been sent successfully.";
     msg.style.color = "green";
     msg.style.marginTop = "15px";
+    msg.style.fontWeight = "500";
 
     form.appendChild(msg);
 
